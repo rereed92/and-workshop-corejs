@@ -5,8 +5,7 @@
   "main": "",
   "scripts": {
     "test": "jest ./src/*test.js --watch",
-    "docs": "./node_modules/.bin/docco ./src/*.js ./exercises/*.js",
-    "precommit": "lint-staged"
+    "docs": "./node_modules/.bin/docco ./src/*.js ./exercises/*.js"
   },
   "author": "",
   "license": "ISC",

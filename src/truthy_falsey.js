@@ -42,6 +42,10 @@ console.log(0 === "0")
 // **Question:** What's the difference between `==` and `===`
 
 // **Answer:** `==` is looser about type checking. 
+// == Loose quality checking
+// === strictly equality checking, checks type as well
+// two objects are not equal to each other - checkes to see if they are stored in the same location in memory
+// cloned objects will equal each other
 
 // **Question:** So which should you use?
 

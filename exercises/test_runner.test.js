@@ -10,6 +10,22 @@
 // ## Implement .toThrow
 // https://jestjs.io/docs/en/expect#tothrowerror
 
+assert = expected => {
+  return {
+    toBeTruthy: () => [false, 0, '', null, undefined, NaN].indexOf(expected) > -1 ? false : true,
+    toBe: actual => expected === actual,
+    toEqual: actual => JSON.stringify(expected) === JSON.stringify(actual),
+    toThrow: () => {
+      try {
+        expected();
+      } catch(error) {
+        return true;
+      }
+      return false;
+    }
+  }
+}
+
 describe('.toBeTruthy', () => {
   test('Will show true as equal to true', () => {
     expect(assert(true).toBeTruthy()).toEqual(true);

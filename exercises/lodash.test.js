@@ -25,6 +25,62 @@
 // Implement a function that curries the function given to it
 // (https://lodash.com/docs/4.17.10#curry)
 
+const _ = {
+    map: (array, fn) => {
+        const result = [];
+        for (let i = 0; i < array.length; i++) {
+            result[i] = fn(array[i])
+        }
+        return result;
+    },
+    reduce: (array, fn, start = 0) => {
+        for (let i = 0; i < array.length; i++) {
+            start = fn(start, array[i]);
+        }
+        return start;
+    },
+    // reduce: (array, fn, start = 0) => {
+    //     if (array.length <= 0) return start;
+    //     start = fn(start, array[0]);
+    //     array.shift();
+    //     _.reduce(array, fn, start);
+    // },
+    memoize: fn => {
+        let cache = {};
+        return function(...args) {
+            if (cache[args]) return cache[args];
+            const val = fn(...args);
+            cache[args] = val;
+            return val;
+        }
+    },
+    defaults: (obj, ...args) => {
+        // const obj = Object.assign({}, obj);
+        // for (let key in args) {
+        //     if (!obj.hasOwnProperty(key)) obj[key] = args[key];
+        // }
+        // return obj;
+        return Object.assign({}, ...args, obj);
+    },
+    throttle: (fn, delay = 0) => {
+        let timer = 0;
+        return function(...args) {
+            const now = (new Date).getTime();
+            if (now - timer < delay) return;
+            timer = now;
+            return fn(...args);
+        }
+    },
+    curry: fn => {
+        //fn.length number of params expected in function
+        //args.length number of args passed to function
+        return function curryAgain(...args) {
+            if (args.length < fn.length) return curryAgain.bind(this, ...args);
+            return fn(...args);
+        }
+    }
+}
+
 describe('_.map', () => {
     test('Can concatenate a string as part of a map', () => {
         expect(
@@ -137,6 +193,7 @@ describe('_.curry', () => {
         expect(inner).toHaveBeenCalledWith('first')
         
     });
+
     test('Currys a two argument function', () => {
 
         const inner = jest.fn();
